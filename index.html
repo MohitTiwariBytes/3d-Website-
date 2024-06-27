@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mohit Tiwari's 3D Portfolio</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+        .info-box {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-box" id="info-box">
+        <p id="info-text"></p>
+    </div>
+
+    <a-scene>
+        <!-- Sky background -->
+        <a-sky color="#ECECEC"></a-sky>
+
+        <!-- About Me Box -->
+        <a-box position="0 1 -3" rotation="0 45 0" width="2" height="2" depth="2" color="#4CC3D9"
+               event-set__mouseenter="_event: mouseenter; color: #24CAFF"
+               event-set__mouseleave="_event: mouseleave; color: #4CC3D9"
+               event-set__click="_event: click; _target: #info-box; _setvisible: true; _setinfo: About Me">
+            <a-text value="Mohit Tiwari" align="center" position="0 0.5 1"></a-text>
+            <a-text value="13-year-old Frontend Developer" align="center" position="0 0.2 1"></a-text>
+            <a-text value="Learning day by day" align="center" position="0 -0.1 1"></a-text>
+        </a-box>
+
+        <!-- Tech Stacks -->
+        <a-box position="3 1 -3" rotation="0 45 0" width="3" height="3" depth="0.5" color="#7BC8A4"
+               event-set__mouseenter="_event: mouseenter; color: #52C8B8"
+               event-set__mouseleave="_event: mouseleave; color: #7BC8A4"
+               event-set__click="_event: click; _target: #info-box; _setvisible: true; _setinfo: Tech Stacks">
+            <a-text value="Tech Stacks" align="center" position="0 1 0.3"></a-text>
+            <a-text value="HTML, CSS, JS" align="center" position="0 0.5 0.3"></a-text>
+            <a-text value="React, Python" align="center" position="0 0 0.3"></a-text>
+            <a-text value="GSAP, Framer Motion" align="center" position="0 -0.5 0.3"></a-text>
+            <a-text value="Node.js, Firebase" align="center" position="0 -1 0.3"></a-text>
+        </a-box>
+        
+
+
+        <!-- Projects Box -->
+        <a-box position="-3 1 -3" rotation="0 45 0" width="2.5" height="2.5" depth="2.5" color="#FFC65D"
+               event-set__mouseenter="_event: mouseenter; color: #FFB84D"
+               event-set__mouseleave="_event: mouseleave; color: #FFC65D"
+               event-set__click="_event: click; _target: #info-box; _setvisible: true; _setinfo: Projects">
+            <a-text value="Projects" align="center" position="0 1 1.25"></a-text>
+            <a-text value="1. Portfolio Website" align="center" position="0 0.5 1.25"></a-text>
+            <a-text value="2. Todo App" align="center" position="0 0 1.25"></a-text>
+            <a-text value="3. Blog Platform" align="center" position="0 -0.5 1.25"></a-text>
+        </a-box>
+        
+        <!-- Contact Box -->
+        <a-box position="0 1 -7" rotation="0 45 0" width="2" height="2" depth="2" color="#F78C6C"
+               event-set__mouseenter="_event: mouseenter; color: #F76C5A"
+               event-set__mouseleave="_event: mouseleave; color: #F78C6C"
+               event-set__click="_event: click; _target: #info-box; _setvisible: true; _setinfo: Contact">
+            <a-text value="Contact Me" align="center" position="0 0.5 1"></a-text>
+            <a-text value="Email: mohittiwariis97@gmail.com" align="center" position="0 0 1"></a-text>
+            <a-text value="Github: @MohitTiwariBytes" align="center" position="0 -0.5 1"></a-text>
+        </a-box>
+    </a-scene>
+
+    <script>
+        AFRAME.registerComponent('event-set__click', {
+            schema: {
+                _event: { type: 'string' },
+                _target: { type: 'selector' },
+                _setvisible: { type: 'boolean' },
+                _setinfo: { type: 'string' }
+            },
+            init: function () {
+                this.el.addEventListener(this.data._event, () => {
+                    if (this.data._setvisible) {
+                        this.data._target.style.display = 'block';
+                    }
+                    document.getElementById('info-text').innerText = this.data._setinfo;
+                });
+            }
+        });
+        
+        AFRAME.registerComponent('event-set__mouseleave', {
+            schema: { _event: { type: 'string' }, _target: { type: 'selector' }, _setvisible: { type: 'boolean' } },
+            init: function () {
+                this.el.addEventListener(this.data._event, () => {
+                    if (this.data._setvisible) {
+                        this.data._target.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Close the info box when clicked outside
+        document.body.addEventListener('click', (event) => {
+            if (event.target.nodeName !== 'A-BOX' && event.target.nodeName !== 'A-SPHERE') {
+                document.getElementById('info-box').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
